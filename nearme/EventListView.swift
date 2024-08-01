@@ -7,7 +7,7 @@
 
 import SwiftUI
 // Event Model
-struct Event: Identifiable {
+struct Event: Identifiable, Hashable {
     let id = UUID()
     let title: String
     let category: String
@@ -16,6 +16,7 @@ struct Event: Identifiable {
     let numberofpeople: String
     let location: String
     let text2: String
+    var isFavorited: Bool = false
 }
 // ViewModel
 class EventViewModel: ObservableObject {
@@ -40,6 +41,8 @@ class EventViewModel: ObservableObject {
         selectedCategory = category
     }
 }
+
+
 // Event Detail View
 struct EventDetailView: View {
     @State private var response = ""
@@ -47,105 +50,104 @@ struct EventDetailView: View {
     var body: some View {
         
         ZStack {
-             // Lighter gradient background
-             LinearGradient(
-               gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.purple.opacity(0.8)]),
-               startPoint: .topLeading,
-               endPoint: .bottomTrailing
-             )
-             .edgesIgnoringSafeArea(.all) // Extend gradient to the edges of the screen
+            // Lighter gradient background
+            LinearGradient(
+                gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.purple.opacity(0.8)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .edgesIgnoringSafeArea(.all) // Extend gradient to the edges of the screen
             
-
             
-            VStack {
-                Spacer()
-                    .frame(height: 15.0)
-                VStack(alignment: .leading, spacing: 20) {
-                    // Event detail section
-                    
-                    Text(event.title)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.bottom, 15)
-                        .foregroundColor(.black) // Set text color to black
-                    
-                    Text("Category: \(event.category)")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    
-                    Divider()
-                    
-                    Text(event.description)
-                        .font(.body)
-                        .foregroundColor(.black)
-                    
-                    // New text lines for number of people and gender
-                    Text(event.gender)
-                                .font(.subheadline)
-                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                .padding([.leading, .top, .trailing], 15)
-                                .foregroundColor(.blue.opacity(0.8))
-                                .fixedSize(horizontal: false, vertical: true)
-                    // Set text color to black
-                    Text(event.numberofpeople)
-                                .font(.subheadline)
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing], 15)
-                                .foregroundColor(.blue.opacity(0.8)) 
-                                .fixedSize(horizontal: false, vertical: true)
-                    // Set text color to black
-                    Text(event.location)
-                                .font(.subheadline)
-                                .fontWeight(.bold)
-                                .padding([.leading, .bottom, .trailing], 15)
-                                .foregroundColor(.blue.opacity(0.8))
-                                .fixedSize(horizontal: false, vertical: true)
-                    
-                    // Set text color to black
-                              // Description text at the bottom
-                    
-                    Text(event.text2)
-                                .font(.body)
-                                .foregroundColor(.black) // Set text color to black
-                                .padding(.all, 10)
-                                .fixedSize(horizontal: false, vertical: true)
-                
-                              
-                    Button("Sign Up!") {
-                     response = "You're signed up! ✅"
+            ScrollView {
+                VStack {
+                    Spacer()
+                        .frame(height: 15.0)
+                    VStack(alignment: .leading, spacing: 20) {
+                        // Event detail section
                         
+                        Text(event.title)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 15)
+                            .foregroundColor(.black) // Set text color to black
+                        
+                        Text("Category: \(event.category)")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        
+                        Divider()
+                        
+                        Text(event.description)
+                            .font(.body)
+                            .foregroundColor(.black)
+                        
+                        // New text lines for number of people and gender
+                        Text(event.gender)
+                            .font(.subheadline)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding([.leading, .top, .trailing], 15)
+                            .foregroundColor(.blue.opacity(0.8))
+                            .fixedSize(horizontal: false, vertical: true)
+                        // Set text color to black
+                        Text(event.numberofpeople)
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .padding([.leading, .trailing], 15)
+                            .foregroundColor(.blue.opacity(0.8))
+                            .fixedSize(horizontal: false, vertical: true)
+                        // Set text color to black
+                        Text(event.location)
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .padding([.leading, .bottom, .trailing], 15)
+                            .foregroundColor(.blue.opacity(0.8))
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        // Set text color to black
+                        // Description text at the bottom
+                        
+                        Text(event.text2)
+                            .font(.body)
+                            .foregroundColor(.black) // Set text color to black
+                            .padding(.all, 10)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        
+                        Button("Sign Up!") {
+                            response = "You're signed up! ✅"
+                            
                         }
-                                        
+                        
                         .padding()
                         .fontWeight(.bold)
                         .frame(width: 270)
                         .background()
                         .foregroundColor(.blue)
                         .cornerRadius(15.0)
-                       
+                        
+                        
+                        Text(response)
+                            .font(.title3)
+                            .padding()
+                        
+                        
+                    }
                     
-                    Text(response)
-                        .font(.title3)
-                        .padding()
-
-
                 }
-                
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
+                .shadow(radius: 5) // Shadow applied to the box
+                .padding()
+                Spacer()
+                    .frame(height: 20.0)
             }
-            .padding()
-                  .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
-                  .shadow(radius: 5) // Shadow applied to the box
-                  .padding()
-            Spacer()
-                .frame(height: 20.0)
+            
         }
-        
     }
 }
-// Main TabView
 
-            
-        
+
 // Main View
 struct EventListView: View {
     @ObservedObject var viewModel = EventViewModel()
@@ -225,6 +227,7 @@ struct EventListView: View {
                                     .padding([.top, .bottom, .trailing], 10.0)
                                 
                             }
+                            
                             
                         }
                         

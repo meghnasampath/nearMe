@@ -1,9 +1,9 @@
 //import MapKit
 //
 //class LocationsViewModel: ObservableObject {
-//    @Published var locations: [Location] = [
+//    @Published var locations: [Location] = []
 //        // STEM
-//        Location(name: "New York Hall of Science", category: .stem, latitude: 40.7471, longitude: -73.8526, address: "47-01 111th St, Queens, NY 11368", rating: 4.5, phoneNumber: "(718) 699-0005"),
+//    Location(name: "New York Hall of Science", category: .stem, latitude: 40.7471, longitude: -73.8526, address: "47-01 111th St, Queens, NY 11368", rating: 4.5, phoneNumber: "(718) 699-0005"),
 //        Location(name: "American Museum of Natural History", category: .stem, latitude: 40.7813, longitude: -73.9735, address: "Central Park West & 79th St, New York, NY 10024", rating: 4.7, phoneNumber: "(212) 769-5100"),
 //        Location(name: "Intrepid Sea, Air & Space Museum", category: .stem, latitude: 40.7645, longitude: -73.9996, address: "Pier 86, W 46th St, New York, NY 10036", rating: 4.6, phoneNumber: "(212) 245-0072"),
 //        Location(name: "Cooper Hewitt, Smithsonian Design Museum", category: .stem, latitude: 40.7840, longitude: -73.9588, address: "2 E 91st St, New York, NY 10128", rating: 4.4, phoneNumber: "(212) 849-8400"),
