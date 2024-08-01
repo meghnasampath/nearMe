@@ -1,12 +1,11 @@
 import SwiftUI
 
 struct LaunchScreenView: View {
-    @State private var scale: CGFloat = 0.5
-    @State private var opacity: Double = 0.0
-    @State private var offset: CGFloat = UIScreen.main.bounds.height
-    @State private var showTitle = false
-    @State private var transitionComplete = false
-
+    @State private var username: String = ""
+    @State private var password: String = ""
+    @State private var isPasswordVisible: Bool = false
+    @State private var showingSignUp = false
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -14,58 +13,96 @@ struct LaunchScreenView: View {
                 LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]),
                                startPoint: .topLeading,
                                endPoint: .bottomTrailing)
-                    .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.all)
                 
-                // Logo Animation
-                if !transitionComplete {
-                    VStack {
-                        Image("Image") // Ensure this image is added to Assets.xcassets
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 300, height: 300)
-                            .scaleEffect(scale)
-                            .opacity(opacity)
-                            .onAppear {
-                                withAnimation(.easeIn(duration: 1.0)) {
-                                    self.scale = 1.0
-                                    self.opacity = 1.0
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                    withAnimation(.easeOut(duration: 1.0)) {
-                                        self.scale = 0.5
-                                        self.opacity = 0.0
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                        self.showTitle = true
-                                    }
-                                }
-                            }
-                        
-                        if showTitle {
-                            Text("NearMe")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .offset(y: offset)
-                                .onAppear {
-                                    withAnimation(.easeInOut(duration: 1.5)) {
-                                        self.offset = 0
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                        self.transitionComplete = true
-                                    }
-                                }
+                VStack {
+                    // Title
+                    Text("NearMe")
+                        .padding(.bottom, 10)
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                    
+                    Text("Login")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.bottom, 40)
+                        .padding(.top, 140)
+                    
+                    // Username Field
+                    TextField("Username", text: $username)
+                        .padding()
+                        .background(Color(.systemGray6).opacity(0.7))
+                        .cornerRadius(10)
+                        .padding(.bottom, 20)
+                        .autocapitalization(.none)
+                    
+                    // Password Field with Show/Hide Icon
+                    HStack {
+                        if isPasswordVisible {
+                            TextField("Password", text: $password)
+                        } else {
+                            SecureField("Password", text: $password)
+                        }
+                        Button(action: {
+                            isPasswordVisible.toggle()
+                        }) {
+                            Image(systemName: isPasswordVisible ? "eye.slash" : "eye")
+                                .foregroundColor(.gray)
                         }
                     }
-                } else {
-                    // After the animation is complete, navigate to another view or show content
-                    ContentView() // Replace with your actual content view or logic
-                        .transition(.opacity) // Optional: apply transition effect
+                    .padding()
+                    .background(Color(.systemGray6).opacity(0.7))
+                    .cornerRadius(10)
+                    .padding(.bottom, 20)
+                    
+                    // Login Button
+                    NavigationLink(destination: navbarView()) {
+                    Button(action: {
+                        // Handle login action here
+                        print("Logging in with username: \(username) and password: \(password)")
+                    }) {
+                    }
+                        
+                            Text("Login")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .frame(width: 220, height: 60)
+                                .background(Color.blue)
+                                .cornerRadius(15.0)
+                            
+                        }
+                        .padding(.top, 20)
+                        
+                        
+                        
+                        // Forgot Password Button
+                        Button(action: {
+                            // Handle forgot password action here
+                            print("Forgot Username/Password")
+                        }) {
+                            Text("Forgot Username/Password?")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                        }
+                        .padding(.top, 20)
+                        
+                        // Sign Up Button
+                        NavigationLink(destination: signup()) {
+                            Text("Sign Up")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .padding(.top, 10)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding()
                 }
             }
-            .navigationBarHidden(true) // Hide navigation bar if needed
         }
-    }
 }
 
 struct LaunchScreenView_Previews: PreviewProvider {

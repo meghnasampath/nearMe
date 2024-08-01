@@ -9,16 +9,11 @@ import SwiftUI
 
 struct navbarView: View {
     var body: some View {
-        //        NavigationStack {
-        //            VStack {
-        //                Text("Nav View")
-        //            }
-        //            .toolbar {
-        //                NavigationLink(destination: EventListView()) {
-        //                    Text("About")
-        //                }
-        //                }
+    
         TabView {
+            
+         
+            
             EventListView()
                 .tabItem() {
                     Image(systemName: "homekit")
@@ -34,6 +29,12 @@ struct navbarView: View {
                     Image(systemName: "camera")
                     Text("Camera")
                 }
+            MapView()
+                .tabItem() {
+                    Image(systemName: "map")
+                    Text("Map Page")
+                }
+           
         }
     }
 }

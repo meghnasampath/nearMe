@@ -9,7 +9,7 @@ import SwiftUI
 
 struct profilePage: View {
     @State private var name = ""
-    @State private var age = ""
+    @State private var bio = ""
     @State private var titleText = "Your Profile Page"
     
     var body: some View {
@@ -47,20 +47,21 @@ struct profilePage: View {
                     
                     // User details section
                     
-                    TextField("Type name here..", text: $name)
+                    TextField(" ⌨️ Type name here...", text: $name)
                         .multilineTextAlignment(.center)
-                        .font(.title3)
+                        .font(.callout)
                         .cornerRadius(15.0)
-                        .border(Color.gray, width: 1)
+                        .border(Color.purple, width: 1)
                     
                     
                     
-                    TextField("Type age here...", text: $age)
-                        .font(.title3)
+                    TextField(" ⌨️ Type bio here...", text: $bio)
+                        
                         .multilineTextAlignment(.center)
                         .foregroundColor(.gray)
-                        .border(Color.gray, width: 1)
+                        .border(Color.purple, width: 1)
                         .frame(maxWidth: .infinity, maxHeight: 50)
+                        .font(.callout)
                     
                     Button("Submit Profile Details") {
                         titleText = "\(name)'s Profile Page!"
